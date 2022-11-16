@@ -16,15 +16,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_213807) do
 
   create_table "contacts", force: :cascade do |t|
     t.text "name"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
   create_table "logs", force: :cascade do |t|
     t.text "subject"
     t.text "body"
+    t.bigint "contact_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_logs_on_contact_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,4 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_213807) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "contacts", "users"
+  add_foreign_key "logs", "contacts"
 end
