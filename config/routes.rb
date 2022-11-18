@@ -3,11 +3,12 @@ Rails.application.routes.draw do
     sign_in: 'login',
     sign_out: 'logout',
     registration: 'signup'
+  },
+  controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
   }
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
   root to: "users#index"
 
   resources :contacts, only: [:index, :show, :create, :destroy, :update]
