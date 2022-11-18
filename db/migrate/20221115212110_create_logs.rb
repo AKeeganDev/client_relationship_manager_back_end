@@ -3,6 +3,7 @@ class CreateLogs < ActiveRecord::Migration[7.0]
     create_table :logs do |t|
       t.text :subject
       t.text :body
+      t.references :contact, null: false, foreign_key: true
       
       t.timestamps
     end

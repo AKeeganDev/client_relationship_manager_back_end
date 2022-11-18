@@ -1,3 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  def index
+    render json: { user: User.all }, status: :ok
+  end
 end
