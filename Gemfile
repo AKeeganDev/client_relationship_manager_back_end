@@ -78,3 +78,4 @@ end
 gem 'rack-cors'
 
 gem 'devise-jwt'
+gem 'fast_jsonapi'
