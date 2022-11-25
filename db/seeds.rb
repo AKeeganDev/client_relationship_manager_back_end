@@ -7,4 +7,4 @@
 #   Character.create(name: "Luke", movie: movies.first)
 User.create(name:"Andres", username:"Andgarzonmal", email:"andgarzonmal@unal.edu.co", password:"123456")
 user = User.first
-Contact.create(name: "Aaron", user_id: user.id)
+Contact.create(name: "Aaron", phone_number: "+1 123 456 7899",email:"aaron@aaron.com", user_id: user.id)

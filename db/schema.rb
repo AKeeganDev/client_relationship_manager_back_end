@@ -16,6 +16,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_23_203802) do
 
   create_table "contacts", force: :cascade do |t|
     t.text "name"
+    t.text "phone_number"
+    t.text "email"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -32,7 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_23_203802) do
 
   create_table "logs", force: :cascade do |t|
     t.text "subject"
-    t.text "body"
+    t.string "body"
     t.bigint "contact_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
