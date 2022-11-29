@@ -1,5 +1,5 @@
 class Contact < ApplicationRecord
-  has_many :logs
+  has_many :logs, dependent: :delete_all
   belongs_to :user
 
   validates :name, presence: true
