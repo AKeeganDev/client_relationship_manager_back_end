@@ -1,16 +1,25 @@
 class UsersController < ApplicationController
+
   def index
-    render json: { user: current_user.first_five_contacts, contacts: current_user.first_five_contacts }, status: :ok
+    @user = User.first
+    render json: { user: @user, contacts: @user.first_five_contacts }, status: :ok
   end
 
   def show
-    render json: { user: current_user.contacts }, status: :ok
+    @user = User.find(params[:id])
+    render json: { user: @user, contacts: @user.contacts }, status: :ok
   end
 
   def update
-    @user = current_user
-    @user.update(user_params)
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
+  
 
   def user_params
     params.require(:user).permit(:name, :username, :email)
