@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
+  # before_action :authenticate_user!
 
   def index
-    @user = User.first
-    render json: { user: @user, contacts: @user.first_five_contacts }, status: :ok
+    render json: { user: current_user, contacts: current_user.first_five_contacts }, status: :ok
   end
 
   def show
-    @user = User.find(params[:id])
-    render json: { user: @user, contacts: @user.contacts }, status: :ok
+    # @user = User.find(params[:id])
+    # render json: { user: @user, contacts: @user.contacts }, status: :ok
+    render json: { user: current_user.first_five_contacts }, status: :ok
   end
 
   def update
