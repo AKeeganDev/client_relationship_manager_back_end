@@ -11,6 +11,9 @@ Rails.application.routes.draw do
 
   root to: "users#index"
 
-  resources :contacts, only: [:index, :show, :create, :destroy, :update]
-  resources :users, only: [:index, :show, :update]
+  resources :users, only: [:index, :show, :update] do
+    resources :contacts, only: [:index, :show, :create, :destroy, :update] do
+      resources :logs
+    end 
+  end
 end
