@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   # before_action :authenticate_user!
 
-  def index
-    render json: { user: current_user, contacts: current_user.first_five_contacts }, status: :ok
-  end
+  # def index
+  #   render json: { user: current_user, contacts: current_user.first_five_contacts }, status: :ok
+  # end
 
   def show
     # @user = User.find(params[:id])
@@ -12,12 +12,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-
-    if @user.update(user_params)
-      render json: @user
+    if current_user.update(user_params)
+      render json: current_user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: current_user.errors, status: :unprocessable_entity
     end
   end
   
