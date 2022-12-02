@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :contacts, dependent: :delete_all
   has_many :logs, through: :contacts
 
-  validates :name, :username, presence: true, length: {minimum: 1}
+  validates :name, :username, presence: true, length: { minimum: 1 }
 
   def first_five_contacts
     contacts.order(created_at: :desc).limit(5)

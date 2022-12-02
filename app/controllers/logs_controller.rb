@@ -1,6 +1,5 @@
 class LogsController < ApplicationController
-
-  before_action :contact, only: [:index, :show, :create, :update]
+  before_action :contact, only: %i[index show create update]
   before_action :log, only: [:destroy]
 
   def index
@@ -13,9 +12,9 @@ class LogsController < ApplicationController
   end
 
   def create
-    @newLog = Log.new(log_params)
-    @newLog.contact = @contact
-    if @newLog.save
+    @new_log = Log.new(log_params)
+    @new_log.contact = @contact
+    if @new_log.save
       render json: { message: 'new interaction log created successfully', log: @newLog }, status: :ok
     else
       render json: @newLog.errors, status: :unprocessable_entity
@@ -39,7 +38,7 @@ class LogsController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def contact
     @contact = current_user.contacts.find(params[:contact_id])

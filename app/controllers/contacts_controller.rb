@@ -1,11 +1,11 @@
 class ContactsController < ApplicationController
-  before_action :contact, only: [:show, :destroy, :update]
+  before_action :contact, only: %i[show destroy update]
 
   def index
     render json: { contacts: current_user.contacts.all }, status: :ok
   end
 
-  def show 
+  def show
     render json: { contact: @contact }, status: :ok
   end
 
@@ -19,7 +19,7 @@ class ContactsController < ApplicationController
     end
   end
 
-  def destroy 
+  def destroy
     if @contact.destroy
       render json: { contact: @contact, message: "contact record #{@contact.name} deleted" }
     else
@@ -35,7 +35,7 @@ class ContactsController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def contact
     @user = current_user
@@ -45,5 +45,4 @@ class ContactsController < ApplicationController
   def contact_params
     params.require(:contact).permit(:name, :phone_number, :email)
   end
-  
 end
