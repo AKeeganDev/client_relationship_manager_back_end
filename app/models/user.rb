@@ -9,6 +9,7 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
   has_many :contacts, dependent: :delete_all
+  has_many :logs, through: :contacts
 
   validates :name, :username, presence: true, length: {minimum: 1}
 
