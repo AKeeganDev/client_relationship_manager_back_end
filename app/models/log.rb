@@ -1,6 +1,5 @@
 class Log < ApplicationRecord
-  has_many :contacts
-  belongs_to :contacts
+  belongs_to :contact
 
   validates :subject, :body, presence: true
 end

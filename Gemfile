@@ -74,3 +74,8 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
+
+gem 'rack-cors'
+
+gem 'devise-jwt'
+gem 'fast_jsonapi'
