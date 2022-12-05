@@ -1,4 +1,5 @@
 class LogsController < ApplicationController
+  before_action :authenticate_user!
   before_action :contact, only: %i[index show create update]
   before_action :log, only: [:destroy]
 
@@ -15,9 +16,9 @@ class LogsController < ApplicationController
     @new_log = Log.new(log_params)
     @new_log.contact = @contact
     if @new_log.save
-      render json: { message: 'new interaction log created successfully', log: @newLog }, status: :ok
+      render json: { message: 'new interaction log created successfully', log: @new_log }, status: :ok
     else
-      render json: @newLog.errors, status: :unprocessable_entity
+      render json: @new_log.errors, status: :unprocessable_entity
     end
   end
 
