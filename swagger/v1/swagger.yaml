@@ -1,44 +1,57 @@
 ---
-components:
-  securitySchemes:
-    bearerAuth: Authorization
-    type: http
-    scheme: bearer
-    bearerFormat: JWT
-openapi: 3.0.1
+swagger: '2.0'
 info:
   title: CRM
   description: CRM Description Placeholder
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: 127.0.0.1:3000
 paths:
   "/login":
     post:
-      summary: log in
+      summary: |-
+        Upon successful login this endpoint returns an object with the user's basic account info along with
+               a bearer token in its response header. Use the bearer token for all future requests during that login session
       tags:
       - User
-      parameters: []
+      consumes:
+      - application/json
+      parameters:
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              properties:
+                email:
+                  type: string
+                password:
+                  format: string
+          required:
+          - email
+          - password
       responses:
         '200':
           description: Logged in sucessfully.
         '403':
           description: Invalid username or password. Please check your spelling and
             cases or reset your password
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user:
-                  properties:
-                    email:
-                      type: string
-                    password:
-                      format: string
-              required:
-              - email
-              - password
-servers:
-- url: http://{defaultHost}
-  variables:
-    defaultHost:
-      default: 127.0.0.1:3000
+  "/logout":
+    delete:
+      summary: Logs a user out of their current session
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      responses:
+        '200':
+          description: Logged out sucessfully
+        '401':
+          description: Couldn't find an active session.

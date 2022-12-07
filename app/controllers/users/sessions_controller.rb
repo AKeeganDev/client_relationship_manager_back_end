@@ -9,11 +9,11 @@ class Users::SessionsController < Devise::SessionsController
         status: { code: 200, message: 'Logged in sucessfully.' },
         data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
       }, status: :ok
-      else
-        render json: {
-          status: 403,
-          message: "Invalid username or password. Please check your spelling and cases or reset your password"
-        }, status: :unauthorized
+    else
+      render json: {
+        status: 403,
+        message: 'Invalid username or password. Please check your spelling and cases or reset your password'
+      }, status: :unauthorized
     end
   end
 
