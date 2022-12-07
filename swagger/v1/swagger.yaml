@@ -1,0 +1,44 @@
+---
+components:
+  securitySchemes:
+    bearerAuth: Authorization
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+openapi: 3.0.1
+info:
+  title: CRM
+  description: CRM Description Placeholder
+paths:
+  "/login":
+    post:
+      summary: log in
+      tags:
+      - User
+      parameters: []
+      responses:
+        '200':
+          description: Logged in sucessfully.
+        '403':
+          description: Invalid username or password. Please check your spelling and
+            cases or reset your password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      format: string
+              required:
+              - email
+              - password
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: 127.0.0.1:3000
