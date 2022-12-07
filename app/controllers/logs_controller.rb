@@ -4,7 +4,13 @@ class LogsController < ApplicationController
   before_action :log, only: [:destroy]
 
   def index
-    render json: { user: current_user, contact: @contact, logs: @contact.logs }, status: :ok
+    @user = {
+      id: current_user.id,
+      name: current_user.name,
+      username: current_user.username
+    }
+
+    render json: { user: @user, contact: @contact, logs: @contact.logs }, status: :ok
   end
 
   def show

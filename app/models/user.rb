@@ -1,11 +1,14 @@
+require 'securerandom'
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   include Devise::JWT::RevocationStrategies::Denylist
 
-  devise :database_authenticatable, :registerable,
+  before_save :generate_uuid
+
+  devise :database_authenticatable,
          :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+         :jwt_authenticatable, :registerable, jwt_revocation_strategy: JwtDenylist
 
   has_many :contacts, dependent: :delete_all
   has_many :logs, through: :contacts
@@ -14,5 +17,11 @@ class User < ApplicationRecord
 
   def first_five_contacts
     contacts.order(created_at: :desc).limit(5)
+  end
+
+  private
+
+  def generate_uuid
+    self.jti = SecureRandom.uuid if jti.nil?
   end
 end

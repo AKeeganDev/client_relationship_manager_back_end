@@ -4,6 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def respond_with(resource, _opts = {})
+    UserSerializer.new(resource).serializable_hash[:data][:attributes]
     if resource.persisted?
       render json: {
         status: { code: 200, message: 'Signed up sucessfully.' },

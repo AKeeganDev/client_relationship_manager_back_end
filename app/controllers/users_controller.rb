@@ -2,7 +2,13 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    render json: { user: current_user, contacts: current_user.contacts }, status: :ok
+    @user = {
+      id: current_user.id,
+      name: current_user.name,
+      username: current_user.username
+    }
+
+    render json: { user: @user, contacts: current_user.contacts }, status: :ok
   end
 
   def update
