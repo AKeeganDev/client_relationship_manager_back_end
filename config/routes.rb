@@ -12,8 +12,8 @@ Rails.application.routes.draw do
   }
 
   root to: "users#index"
-
   resources :users, only: [:index, :show, :update] do
+    match '/show', to: 'users#show', via: [:head]
     resources :contacts, only: [:index, :show, :create, :destroy, :update] do
       resources :logs, only: [:index, :show, :create, :destroy, :update]
     end 

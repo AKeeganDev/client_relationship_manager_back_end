@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_content_type_json, only: [:show]
 
   def show
     @user = {

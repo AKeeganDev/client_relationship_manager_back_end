@@ -1,7 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'User', type: :request do
-  path '/login' do
+  path user_path do
     post(
       'Provides data on the User\'s basic account information and a list of all contacts logged in the database'
     ) do

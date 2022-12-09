@@ -2,6 +2,7 @@ class LogsController < ApplicationController
   before_action :authenticate_user!
   before_action :contact, only: %i[index show create update]
   before_action :log, only: [:destroy]
+  before_action :require_content_type_json, only: [:index, :show]
 
   def index
     @user = {

@@ -1,6 +1,7 @@
 class ContactsController < ApplicationController
   before_action :authenticate_user!
   before_action :contact, only: %i[show destroy update]
+  before_action :require_content_type_json, only: [:index, :show]
 
   def index
     render json: { contacts: current_user.contacts.all }, status: :ok
