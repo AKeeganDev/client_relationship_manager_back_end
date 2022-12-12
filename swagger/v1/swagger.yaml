@@ -36,9 +36,14 @@ paths:
       responses:
         '200':
           description: Logged in sucessfully.
-        '403':
+        '401':
           description: Invalid username or password. Please check your spelling and
             cases or reset your password
+        '404':
+          description: No account found with email <USER EMAIL>. Please signup a new
+            account to log in
+        '403':
+          description: Unauthorized request. Check your authorization credentials
   "/logout":
     delete:
       summary: Logs a user out of their current session
@@ -55,3 +60,44 @@ paths:
           description: Logged out sucessfully
         '401':
           description: Couldn't find an active session.
+  "/users/{id}":
+    get:
+      summary: Provides data on the User's basic account information and a list of
+        all contacts logged in the database
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      responses:
+        '200':
+          description: ''
+    patch:
+      summary: Allows user to update its basic information
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              properties:
+                email:
+                  type: string
+                name:
+                  format: string
+                username:
+                  format: string
+      responses:
+        '200':
+          description: ''
