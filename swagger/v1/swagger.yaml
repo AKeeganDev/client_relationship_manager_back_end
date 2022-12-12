@@ -9,6 +9,83 @@ servers:
     defaultHost:
       default: 127.0.0.1:3000
 paths:
+  "/users/{user_id}/contacts/{id}":
+    get:
+      summary: Provides all the data about specific contact ID provided in the endpoint
+      tags:
+      - Contact
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+    patch:
+      summary: Allows user to update its basic information. Only include the fields
+        you want to update.
+      tags:
+      - Contact
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: id
+        in: path
+        required: true
+      - name: contact
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              format: string
+            phone_number:
+              format: string
+      responses:
+        '200':
+          description: update successful
+        '422':
+          description: Unprocessable Entity
+  "/users/{user_id}/contacts":
+    post:
+      summary: Allows for a contact to be created under the user account found within
+        the authorization credentials
+      tags:
+      - Contact
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              properties:
+                name:
+                  type: string
+                email:
+                  format: string
+                phone_number:
+                  format: string
+      responses:
+        '200':
+          description: contact created successfully
+        '422':
+          description: Unprocessable Entity
   "/login":
     post:
       summary: |-
@@ -76,7 +153,8 @@ paths:
         '200':
           description: ''
     patch:
-      summary: Allows user to update its basic information
+      summary: Allows user to update its basic information. Only include the fields
+        you want to update.
       tags:
       - User
       consumes:
