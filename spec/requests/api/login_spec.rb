@@ -23,8 +23,13 @@ RSpec.describe 'Login and Logout', type: :request do
       response(200, 'Logged in sucessfully.') do
         run_test!
       end
-
-      response(403, 'Invalid username or password. Please check your spelling and cases or reset your password') do
+      response(401, 'Invalid username or password. Please check your spelling and cases or reset your password') do
+        run_test!
+      end
+      response(404, 'No account found with email <USER EMAIL>. Please signup a new account to log in') do
+        run_test!
+      end
+      response(403, 'Unauthorized request. Check your authorization credentials') do
         run_test!
       end
     end
