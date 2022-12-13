@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_content_type_json, only: [:show]
+  before_action :deny_content_type_json, only: [:show]
 
   def show
     @user = {
@@ -13,8 +13,13 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user.update(user_params)
-      render json: current_user
+    if current_user.update!(user_params)
+      @user = {
+        id: current_user.id,
+        name: current_user.name,
+        username: current_user.username
+      }
+      render json: { message: 'Account updated successfully!', user: @user }
     else
       render json: current_user.errors, status: :unprocessable_entity
     end

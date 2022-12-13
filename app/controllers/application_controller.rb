@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   private
   
-  def require_content_type_json
+  def deny_content_type_json
     if request.content_type == 'application/json'
       render json: {
         status: 403,

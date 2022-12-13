@@ -17,7 +17,7 @@ RSpec.configure do |config|
       swagger: '2.0',
       info: {
         title: 'CRM',
-        description: 'CRM Description Placeholder'
+        description: 'Welcome to the our Client Relationship Manager API! To use this API please follow the documentation below. All required headers & request body fields are provided inside each endpoint description and parameters. Please do not send a body unless specifically instructed to do so. Otherwise your request will not be processed'
       },
       servers: [
         {

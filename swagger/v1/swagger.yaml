@@ -2,7 +2,11 @@
 swagger: '2.0'
 info:
   title: CRM
-  description: CRM Description Placeholder
+  description: Welcome to the our Client Relationship Manager API! To use this API
+    please follow the documentation below. All required headers & request body fields
+    are provided inside each endpoint description and parameters. Please do not send
+    a body unless specifically instructed to do so. Otherwise your request will not
+    be processed
 servers:
 - url: http://{defaultHost}
   variables:
@@ -27,8 +31,9 @@ paths:
         '200':
           description: ''
     patch:
-      summary: Allows user to update its basic information. Only include the fields
-        you want to update.
+      summary: Allows for a specific contact to be updated. The contact ID must be
+        included in the path. In the body of the request only include an object with
+        fields that you wish to update
       tags:
       - Contact
       consumes:
@@ -53,13 +58,31 @@ paths:
               format: string
       responses:
         '200':
-          description: update successful
+          description: Update successful
         '422':
           description: Unprocessable Entity
+    delete:
+      summary: Deletes the contact found under the ID provided in the endpoint
+      tags:
+      - Contact
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Contact <CONTACT NAME> deleted
+        '404':
+          description: Not Found
   "/users/{user_id}/contacts":
     post:
       summary: Allows for a contact to be created under the user account found within
-        the authorization credentials
+        the authorization credentials. In the body of the request only a name is required
       tags:
       - Contact
       consumes:
@@ -73,17 +96,180 @@ paths:
         schema:
           type: object
           properties:
+            name:
+              type: string
+            email:
+              format: string
+            phone_number:
+              format: string
+          required:
+          - name
+      responses:
+        '200':
+          description: Contact created successfully
+        '422':
+          description: Unprocessable Entity
+  "/users/{user_id}/contacts/{contact_id}/logs":
+    get:
+      summary: Provides all logs for the contact found using the provided contact
+        id within the endpoint
+      tags:
+      - Log
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: contact_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: Not Found
+    post:
+      summary: Allows for a log to be created under the user account found within
+        the authorization credentials. In the body of the request only include an
+        object with fields that you wish to update. Subject & Body fields must be
+        provided and they cannot be null or blank
+      tags:
+      - Log
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: contact_id
+        in: path
+        required: true
+      - name: log
+        in: body
+        schema:
+          type: object
+          properties:
+            subject:
+              type: string
+            body:
+              format: string
+          required:
+          - subject
+      responses:
+        '200':
+          description: New interaction log created successfully
+        '422':
+          description: Unprocessable Entity
+  "/users/{user_id}/contacts/{contact_id}/logs/{id}":
+    get:
+      summary: Provides the details of the Log ID provided in the endpoint
+      tags:
+      - Log
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: contact_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: Unprocessable Entity
+    patch:
+      summary: Allows for a specific log to be updated. The contact ID must be included
+        in the path. In the body of the request only include an object with fields
+        that you wish to update
+      tags:
+      - Log
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: contact_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      - name: log
+        in: body
+        schema:
+          type: object
+          properties:
+            subject:
+              type: string
+            body:
+              format: string
+      responses:
+        '200':
+          description: Update successful
+        '422':
+          description: Unprocessable Entity
+    delete:
+      summary: Deletes the contact found under the ID provided in the endpoint
+      tags:
+      - Log
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: contact_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Log record <LOG SUBJECT> deleted
+        '404':
+          description: Not Found
+  "/signup":
+    post:
+      summary: Create a new user account with this endpoint. An email, username, name,
+        and password are all required. A new session is automatically created and
+        the Authorization credentials are sent in the headers of the response
+      tags:
+      - Signup
+      consumes:
+      - application/json
+      parameters:
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
             user:
+              type: object
               properties:
                 name:
                   type: string
                 email:
-                  format: string
-                phone_number:
-                  format: string
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+          required:
+          - name
+          - email
+          - username
+          - password
       responses:
         '200':
-          description: contact created successfully
+          description: successful
         '422':
           description: Unprocessable Entity
   "/login":
@@ -92,7 +278,7 @@ paths:
         Upon successful login this endpoint returns an object with the user's basic account info along with
                a bearer token in its response header. Use the bearer token for all future requests during that login session
       tags:
-      - User
+      - Login/Logout
       consumes:
       - application/json
       parameters:
@@ -114,8 +300,8 @@ paths:
         '200':
           description: Logged in sucessfully.
         '401':
-          description: Invalid username or password. Please check your spelling and
-            cases or reset your password
+          description: Invalid email or password. Please check your spelling and cases
+            or reset your password
         '404':
           description: No account found with email <USER EMAIL>. Please signup a new
             account to log in
@@ -125,7 +311,7 @@ paths:
     delete:
       summary: Logs a user out of their current session
       tags:
-      - User
+      - Login/Logout
       consumes:
       - application/json
       parameters:
@@ -178,4 +364,4 @@ paths:
                   format: string
       responses:
         '200':
-          description: ''
+          description: Account updated successfully!

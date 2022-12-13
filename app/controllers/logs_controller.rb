@@ -2,7 +2,7 @@ class LogsController < ApplicationController
   before_action :authenticate_user!
   before_action :contact, only: %i[index show create update]
   before_action :log, only: [:destroy]
-  before_action :require_content_type_json, only: [:index, :show]
+  before_action :deny_content_type_json, only: [:index, :show, :delete]
 
   def index
     @user = {
@@ -23,7 +23,7 @@ class LogsController < ApplicationController
     @new_log = Log.new(log_params)
     @new_log.contact = @contact
     if @new_log.save
-      render json: { message: 'new interaction log created successfully', log: @new_log }, status: :ok
+      render json: { message: 'New interaction log created successfully', log: @new_log }, status: :ok
     else
       render json: @new_log.errors, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class LogsController < ApplicationController
 
   def destroy
     if @log.destroy
-      render json: { log: @log, message: "contact record '#{@log.subject}' deleted" }
+      render json: { log: @log, message: "Log record '#{@log.subject}' deleted" }
     else
       render json: @log.errors, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class LogsController < ApplicationController
   def update
     @log = @contact.logs.find(params[:id])
     if @log.update(log_params)
-      render json: { log: @log, message: 'update successful' }
+      render json: { log: @log, message: 'Update successful' }
     else
       render json: @log.errors, status: :unprocessable_entity
     end

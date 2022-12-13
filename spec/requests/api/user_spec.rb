@@ -31,7 +31,7 @@ RSpec.describe 'User', type: :request do
           }
         },
       }
-      response(200, '') do
+      response(200, 'Account updated successfully!') do
         run_test!
       end
     end

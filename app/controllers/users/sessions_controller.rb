@@ -15,7 +15,7 @@ class Users::SessionsController < Devise::SessionsController
       elsif user_exists
         render json: {
           status: 401,
-          message: 'Invalid username or password. Please check your spelling and cases or reset your password'
+          message: 'Invalid email or password. Please check your spelling and cases or reset your password'
         }, status: :unauthorized
       elsif user_exists.blank? && email_included
         render json: {
