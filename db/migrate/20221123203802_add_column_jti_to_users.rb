@@ -1,6 +1,6 @@
 class AddColumnJtiToUsers < ActiveRecord::Migration[7.0]
   def change
-    add_column :users, :jti, :string, null: false
+    add_column :users, :jti, :string
     add_index :users, :jti, unique: true
     # If you already have user records, you will need to initialize its `jti` column before setting it to not nullable. Your migration will look this way:
     # add_column :users, :jti, :string

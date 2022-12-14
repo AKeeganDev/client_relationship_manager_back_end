@@ -10,4 +10,15 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[username name])
   end
+
+  private
+
+  def deny_content_type_json
+    return unless request.content_type == 'application/json'
+
+    render json: {
+      status: 403,
+      message: 'No body allowed in this request'
+    }, status: :forbidden
+  end
 end

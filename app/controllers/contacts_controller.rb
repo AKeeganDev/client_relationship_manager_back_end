@@ -1,6 +1,7 @@
 class ContactsController < ApplicationController
   before_action :authenticate_user!
   before_action :contact, only: %i[show destroy update]
+  before_action :deny_content_type_json, only: %i[index show delete]
 
   def index
     render json: { contacts: current_user.contacts.all }, status: :ok
@@ -14,7 +15,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     @contact.user = current_user
     if @contact.save
-      render json: { message: 'contact created successfully', contact: @contact }, status: :ok
+      render json: { message: 'Contact created successfully', contact: @contact }, status: :ok
     else
       render json: @contact.errors, status: :unprocessable_entity
     end
@@ -22,7 +23,7 @@ class ContactsController < ApplicationController
 
   def destroy
     if @contact.destroy
-      render json: { contact: @contact, message: "contact record #{@contact.name} deleted" }
+      render json: { contact: @contact, message: "Contact record #{@contact.name} deleted" }
     else
       render json: @contact.errors, status: :unprocessable_entity
     end
@@ -30,7 +31,7 @@ class ContactsController < ApplicationController
 
   def update
     if contact.update(contact_params)
-      render json: { contact: @contact, message: 'update successful' }
+      render json: { contact: @contact, message: 'Update successful' }
     else
       render json: @contact.errors, status: :unprocessable_entity
     end
