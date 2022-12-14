@@ -1,7 +1,7 @@
 require 'swagger_helper'
+# rubocop:disable all
 
 RSpec.describe 'Provides Contact data for a given user', type: :request do
-
   path '/users/{user_id}/contacts/{id}' do
     get(
       'Provides all the data about specific contact ID provided in the endpoint'
@@ -35,7 +35,7 @@ RSpec.describe 'Provides Contact data for a given user', type: :request do
       response(200, 'Contact created successfully') do
         run_test!
       end
-      response(422, "Unprocessable Entity") do
+      response(422, 'Unprocessable Entity') do
         run_test!
       end
     end
@@ -50,16 +50,16 @@ RSpec.describe 'Provides Contact data for a given user', type: :request do
       parameter name: :contact, in: :body, schema: {
         type: :object,
         properties: {
-              name: { type: :string },
-              email: { format: :string },
-              phone_number: { format: :string }
-            },
+          name: { type: :string },
+          email: { format: :string },
+          phone_number: { format: :string }
+        }
       }
       response(200, 'Update successful') do
         run_test!
       end
 
-      response(422, "Unprocessable Entity") do
+      response(422, 'Unprocessable Entity') do
         run_test!
       end
     end
@@ -83,5 +83,4 @@ RSpec.describe 'Provides Contact data for a given user', type: :request do
       end
     end
   end
-
 end

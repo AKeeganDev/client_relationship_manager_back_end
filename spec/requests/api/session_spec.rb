@@ -1,4 +1,5 @@
 require 'swagger_helper'
+# rubocop:disable all
 
 RSpec.describe 'Login and Logout', type: :request do
   path '/login' do

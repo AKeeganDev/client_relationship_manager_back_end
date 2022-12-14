@@ -6,13 +6,143 @@ info:
     please follow the documentation below. All required headers & request body fields
     are provided inside each endpoint description and parameters. Please do not send
     a body unless specifically instructed to do so. Otherwise your request will not
-    be processed
+    be processed. Please do not use real people's full name and contact info. This
+    is an example project to showcase programming skills and this will not be monitored.
 servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
       default: 127.0.0.1:3000
 paths:
+  "/signup":
+    post:
+      summary: Create a new user account with this endpoint. An email, username, name,
+        and password are all required. A new session is automatically created and
+        the Authorization credentials are sent in the headers of the response
+      tags:
+      - Signup
+      consumes:
+      - application/json
+      parameters:
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+          required:
+          - name
+          - email
+          - username
+          - password
+      responses:
+        '200':
+          description: successful
+        '422':
+          description: Unprocessable Entity
+  "/login":
+    post:
+      summary: |-
+        Upon successful login this endpoint returns an object with the user's basic account info along with
+               a bearer token in its response header. Use the bearer token for all future requests during that login session
+      tags:
+      - Login/Logout
+      consumes:
+      - application/json
+      parameters:
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              properties:
+                email:
+                  type: string
+                password:
+                  format: string
+          required:
+          - email
+          - password
+      responses:
+        '200':
+          description: Logged in sucessfully.
+        '401':
+          description: Invalid email or password. Please check your spelling and cases
+            or reset your password
+        '404':
+          description: No account found with email <USER EMAIL>. Please signup a new
+            account to log in
+        '403':
+          description: Unauthorized request. Check your authorization credentials
+  "/logout":
+    delete:
+      summary: Logs a user out of their current session
+      tags:
+      - Login/Logout
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      responses:
+        '200':
+          description: Logged out sucessfully
+        '401':
+          description: Couldn't find an active session.
+  "/users/{id}":
+    get:
+      summary: Provides data on the User's basic account information and a list of
+        all contacts logged in the database
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      responses:
+        '200':
+          description: ''
+    patch:
+      summary: Allows user to update its basic information. Only include the fields
+        you want to update.
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              properties:
+                email:
+                  type: string
+                name:
+                  format: string
+                username:
+                  format: string
+      responses:
+        '200':
+          description: Account updated successfully!
   "/users/{user_id}/contacts/{id}":
     get:
       summary: Provides all the data about specific contact ID provided in the endpoint
@@ -236,132 +366,3 @@ paths:
           description: Log record <LOG SUBJECT> deleted
         '404':
           description: Not Found
-  "/signup":
-    post:
-      summary: Create a new user account with this endpoint. An email, username, name,
-        and password are all required. A new session is automatically created and
-        the Authorization credentials are sent in the headers of the response
-      tags:
-      - Signup
-      consumes:
-      - application/json
-      parameters:
-      - name: user
-        in: body
-        schema:
-          type: object
-          properties:
-            user:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                username:
-                  type: string
-                password:
-                  type: string
-          required:
-          - name
-          - email
-          - username
-          - password
-      responses:
-        '200':
-          description: successful
-        '422':
-          description: Unprocessable Entity
-  "/login":
-    post:
-      summary: |-
-        Upon successful login this endpoint returns an object with the user's basic account info along with
-               a bearer token in its response header. Use the bearer token for all future requests during that login session
-      tags:
-      - Login/Logout
-      consumes:
-      - application/json
-      parameters:
-      - name: user
-        in: body
-        schema:
-          type: object
-          properties:
-            user:
-              properties:
-                email:
-                  type: string
-                password:
-                  format: string
-          required:
-          - email
-          - password
-      responses:
-        '200':
-          description: Logged in sucessfully.
-        '401':
-          description: Invalid email or password. Please check your spelling and cases
-            or reset your password
-        '404':
-          description: No account found with email <USER EMAIL>. Please signup a new
-            account to log in
-        '403':
-          description: Unauthorized request. Check your authorization credentials
-  "/logout":
-    delete:
-      summary: Logs a user out of their current session
-      tags:
-      - Login/Logout
-      consumes:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-      responses:
-        '200':
-          description: Logged out sucessfully
-        '401':
-          description: Couldn't find an active session.
-  "/users/{id}":
-    get:
-      summary: Provides data on the User's basic account information and a list of
-        all contacts logged in the database
-      tags:
-      - User
-      consumes:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-      responses:
-        '200':
-          description: ''
-    patch:
-      summary: Allows user to update its basic information. Only include the fields
-        you want to update.
-      tags:
-      - User
-      consumes:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-      - name: user
-        in: body
-        schema:
-          type: object
-          properties:
-            user:
-              properties:
-                email:
-                  type: string
-                name:
-                  format: string
-                username:
-                  format: string
-      responses:
-        '200':
-          description: Account updated successfully!

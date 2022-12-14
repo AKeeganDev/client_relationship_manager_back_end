@@ -12,13 +12,13 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  
+
   def deny_content_type_json
-    if request.content_type == 'application/json'
-      render json: {
-        status: 403,
-        message: 'No body allowed in this request'
-      }, status: :forbidden
-      end
+    return unless request.content_type == 'application/json'
+
+    render json: {
+      status: 403,
+      message: 'No body allowed in this request'
+    }, status: :forbidden
   end
 end

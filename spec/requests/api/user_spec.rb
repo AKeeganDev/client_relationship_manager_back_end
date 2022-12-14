@@ -29,7 +29,7 @@ RSpec.describe 'User', type: :request do
               username: { format: :string }
             }
           }
-        },
+        }
       }
       response(200, 'Account updated successfully!') do
         run_test!

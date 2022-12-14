@@ -6,7 +6,8 @@ class UsersController < ApplicationController
     @user = {
       id: current_user.id,
       name: current_user.name,
-      username: current_user.username
+      username: current_user.username,
+      email: current_user.email
     }
 
     render json: { user: @user, contacts: current_user.contacts }, status: :ok
@@ -17,7 +18,8 @@ class UsersController < ApplicationController
       @user = {
         id: current_user.id,
         name: current_user.name,
-        username: current_user.username
+        username: current_user.username,
+        email: current_user.email
       }
       render json: { message: 'Account updated successfully!', user: @user }
     else

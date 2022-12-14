@@ -2,7 +2,7 @@ class LogsController < ApplicationController
   before_action :authenticate_user!
   before_action :contact, only: %i[index show create update]
   before_action :log, only: [:destroy]
-  before_action :deny_content_type_json, only: [:index, :show, :delete]
+  before_action :deny_content_type_json, only: %i[index show delete]
 
   def index
     @user = {

@@ -1,7 +1,7 @@
 require 'swagger_helper'
+# rubocop:disable all
 
 RSpec.describe 'Provides Log data for a given User and Contact ID', type: :request do
-
   path '/users/{user_id}/contacts/{contact_id}/logs' do
     get(
       'Provides all logs for the contact found using the provided contact id within the endpoint'
@@ -29,16 +29,16 @@ RSpec.describe 'Provides Log data for a given User and Contact ID', type: :reque
       parameter name: :contact_id, in: :path, required: true
       parameter name: :log, in: :body, schema: {
         type: :object,
-          properties: {
-            subject: { type: :string },
-            body: { format: :string }
-          },
-          required: %w[subject]
+        properties: {
+          subject: { type: :string },
+          body: { format: :string }
+        },
+        required: %w[subject]
       }
       response(200, 'New interaction log created successfully') do
         run_test!
       end
-      response(422, "Unprocessable Entity") do
+      response(422, 'Unprocessable Entity') do
         run_test!
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe 'Provides Log data for a given User and Contact ID', type: :reque
         run_test!
       end
 
-      response(404, "Unprocessable Entity") do
+      response(404, 'Unprocessable Entity') do
         run_test!
       end
     end
@@ -74,13 +74,13 @@ RSpec.describe 'Provides Log data for a given User and Contact ID', type: :reque
         properties: {
           subject: { type: :string },
           body: { format: :string }
-          },
+        }
       }
       response(200, 'Update successful') do
         run_test!
       end
 
-      response(422, "Unprocessable Entity") do
+      response(422, 'Unprocessable Entity') do
         run_test!
       end
     end
@@ -105,5 +105,4 @@ RSpec.describe 'Provides Log data for a given User and Contact ID', type: :reque
       end
     end
   end
-
 end

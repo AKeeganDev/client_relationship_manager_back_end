@@ -1,4 +1,5 @@
 require 'rails_helper'
+# rubocop:disable all
 
 RSpec.configure do |config|
   # Specify a root folder where Swagger JSON files are generated
@@ -17,7 +18,7 @@ RSpec.configure do |config|
       swagger: '2.0',
       info: {
         title: 'CRM',
-        description: 'Welcome to the our Client Relationship Manager API! To use this API please follow the documentation below. All required headers & request body fields are provided inside each endpoint description and parameters. Please do not send a body unless specifically instructed to do so. Otherwise your request will not be processed'
+        description: 'Welcome to the our Client Relationship Manager API! To use this API please follow the documentation below. All required headers & request body fields are provided inside each endpoint description and parameters. Please do not send a body unless specifically instructed to do so. Otherwise your request will not be processed. Please do not use real people\'s full name and contact info. This is an example project to showcase programming skills and this will not be monitored.'
       },
       servers: [
         {
