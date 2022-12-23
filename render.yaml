@@ -1,11 +1,11 @@
 databases:
-  - name: CRM
-    databaseName: CRM
-    user: CRM
+  - name: client_relationship_manager_back_end
+    databaseName: client_relationship_manager_back_end
+    user: client_relationship_manager_back_end
 
 services:
   - type: web
-    name: CRM
+    name: client_relationship_manager_back_end
     env: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
