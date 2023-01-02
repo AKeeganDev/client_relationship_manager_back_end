@@ -55,7 +55,6 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 group :development, :test do
-  gem 'rspec-rails'
   gem 'rswag-specs'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -85,3 +84,5 @@ gem 'devise-jwt'
 gem 'fast_jsonapi'
 
 gem 'rswag'
+
+gem 'rspec-rails'
